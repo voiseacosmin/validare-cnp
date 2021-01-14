@@ -27,7 +27,7 @@ function sex($cnp)
     $result = false;
 
     //if lenght is valid
-    if (strlen($cnp) == 13)
+    if (strlen($cnp) == 13 && is_numeric($cnp))
     {
         $sex = $cnp[0];
         if($sex>0 && $sex < 10)
@@ -41,7 +41,7 @@ function nastere($cnp)
     $result = false;
 
     //if lenght is valid
-    if (strlen($cnp) == 13)
+    if (strlen($cnp) == 13 && is_numeric($cnp))
     {
         $bd = substr($cnp, 1, 6);
         
@@ -84,10 +84,15 @@ function judet($cnp)
 {
     $result = false;
 
-    $judet = $cnp[7].$cnp[8];
+    //if lenght is valid
+    if (strlen($cnp) == 13 && is_numeric($cnp))
+    {
 
-    if($judet > 1 && $judet < 53)
-        $result = true;
+        $judet = $cnp[7].$cnp[8];
+
+        if($judet > 1 && $judet < 53)
+            $result = true; 
+    }
 
     return $result;
 }
@@ -98,7 +103,7 @@ function nr($cnp)
 
     $nr = $cnp[9].$cnp[10].$cnp[11];
 
-    if($nr > 1 && $nr < 1000)
+    if(is_numeric($nr) && $nr>1)
         $result = true;
 
     return $result;
@@ -108,15 +113,19 @@ function crc($cnp)
 {
     $result = false;
 
-    $crc = "279146358279";
+    //if lenght is valid
+    if (is_numeric($cnp))
+    {
+        $crc = "279146358279";
 
-    $sum = $cnp[0]*$crc[0]+$cnp[1]*$crc[1]+$cnp[2]*$crc[2]+$cnp[3]*$crc[3]+$cnp[4]*$crc[4]+$cnp[5]*$crc[5]+$cnp[6]*$crc[6]+$cnp[7]*$crc[7]+$cnp[8]*$crc[8]+$cnp[9]*$crc[9]+$cnp[10]*$crc[10]+$cnp[11]*$crc[11];
+        $sum = $cnp[0]*$crc[0]+$cnp[1]*$crc[1]+$cnp[2]*$crc[2]+$cnp[3]*$crc[3]+$cnp[4]*$crc[4]+$cnp[5]*$crc[5]+$cnp[6]*$crc[6]+$cnp[7]*$crc[7]+$cnp[8]*$crc[8]+$cnp[9]*$crc[9]+$cnp[10]*$crc[10]+$cnp[11]*$crc[11];
 
-    $rest = $sum % 11;
-    $r = substr($rest,0,1);
+        $rest = $sum % 11;
+        $r = substr($rest,0,1);
 
-    if($cnp[12] == $r)
-        $result = true;
+        if($cnp[12] == $r)
+            $result = true;
+    }
 
     return $result;
 }
